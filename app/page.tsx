@@ -26,6 +26,8 @@ import FinancialChart from '@/components/answer/FinancialChart';
 import { ArrowUp } from '@phosphor-icons/react';
 // OPTIONAL: Use Upstash rate limiting to limit the number of requests per user
 import RateLimit from '@/components/answer/RateLimit';
+import { useSession } from 'next-auth/react';
+import { useToast } from '@/components/ui/use-toast';
 
 // 2. Set up types
 interface SearchResult {
@@ -106,6 +108,8 @@ interface Shopping {
 
 
 export default function Page() {
+  const { data: session, status } = useSession();
+  const { toast } = useToast()
   // 3. Set up action that will be used to stream all the messages
   const { myAction } = useActions<typeof AI>();
   // 4. Set up form submission handling
@@ -279,6 +283,16 @@ export default function Page() {
             ref={formRef}
             onSubmit={async (e: FormEvent<HTMLFormElement>) => {
               e.preventDefault();
+              if (!session) {
+                toast({
+                  title: "Sign in to use the chat",
+                  variant: "destructive",
+                  description: "You need to sign in to use the chat feature.",
+                })
+                return;
+              }
+              console.log('submit')
+         
               handleFormSubmit(e);
               setCurrentLlmResponse('');
               if (window.innerWidth < 600) {
