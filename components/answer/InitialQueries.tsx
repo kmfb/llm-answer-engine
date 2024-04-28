@@ -1,5 +1,7 @@
 import React from 'react';
 import { IconPlus } from '@/components/ui/icons';
+import { useSession } from 'next-auth/react';
+import { toast } from '../ui/use-toast';
 
 interface InitialQueriesProps {
   questions: string[];
@@ -7,7 +9,16 @@ interface InitialQueriesProps {
 }
 
 const InitialQueries = ({ questions, handleFollowUpClick }: InitialQueriesProps) => {
+  const { data: session, status } = useSession();
   const handleQuestionClick = (question: string) => {
+    if (!session) {
+      toast({
+        title: "Sign in to use the chat",
+        variant: "destructive",
+        description: "You need to sign in to use the chat feature.",
+      })
+      return;
+    }
     handleFollowUpClick(question);
   };
   
