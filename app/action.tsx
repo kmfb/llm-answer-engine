@@ -283,7 +283,7 @@ async function myAction(userMessage: string): Promise<any> {
   "use server";
   const streamable = createStreamableValue({});
   (async () => {
-    if (config.useRateLimiting) {
+    if (config.useRateLimiting && ratelimit) {
       const identifier = headers().get('x-forwarded-for') || headers().get('x-real-ip') || headers().get('cf-connecting-ip') || headers().get('client-ip') || "";
       const { success } = await ratelimit.limit(identifier);
       if (!success) {
