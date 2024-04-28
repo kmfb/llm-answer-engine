@@ -46,10 +46,10 @@ export const viewport = {
 export default function RootLayout({
   children,
   session,
-}: Readonly<{
+}: {
   children: React.ReactNode;
   session: any;
-}>) {
+}) {
   return (
     <SessionProvider session={session}>
       <html lang="en" suppressHydrationWarning>
