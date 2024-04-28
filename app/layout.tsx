@@ -9,6 +9,8 @@ import { AI } from "./action";
 import { Header } from "@/components/header";
 import { Providers } from "@/components/providers";
 import { SessionProvider } from "next-auth/react";
+import { Session } from "next-auth";
+
 const meta = {
   title: "answers, how they should be displayed.",
   description: "anwser engine built by developers digest",
@@ -46,10 +48,7 @@ export const viewport = {
 export default function RootLayout({
   children,
   session,
-}: {
-  children: React.ReactNode;
-  session: any;
-}) {
+}: any) {
   return (
     <SessionProvider session={session}>
       <html lang="en" suppressHydrationWarning>
